@@ -51,27 +51,35 @@ function gotCharacteristics(error, characteristics) {
 
 // A function that will be called once got values
 function TXgotValue(value) {
+  let blewaitTime = millis();
+  while (millis()-blewaitTime <10) {
+  }
   //timeinterval=millis();
   //var enc = new TextEncoder();
   //blueToothTXCharacteristic.writeValue(enc.encode(""));
   console.log('value: ', value);
-  //textlog.value() = textlog.value() + value;
-  log_element = document.querySelector('#textlogID');
-  log_element.innerText += value;
-  //log_element.textConte
-  //log_element.innerHTML = log_element.innerHTML.replace(/\n\r?/g, '<br />');
-  //log_element.textContent += value;
-  //log_element.textContent = log_element.textContent + escape("\n");
-  //document.getElementById("textlog").innerHTML = "New text!";
+  let splitString = split(value, ',');
+  if (splitString[0] == "<#") {
+    for (let i=0; i<16; i++) {
+      if (splitString[i+1] >=0 && splitString[i+1]<=1023) {
+        rawAnalogValues[i] = splitString[i+1];
+      } else {
+        return;
+      }
+    }
+    if (rawAnalogValues[15] >=0 && rawAnalogValues[15] <=1023) {
+      drawScreen();
+    }
+  }
 }
 
-function RXgotValue(value) {
-  console.log('rxvalue: ', value);
-}
+//function RXgotValue(value) {
+//  console.log('rxvalue: ', value);
+//}
 
-function ModegotValue(value) {
-  console.log('modevalue: ', value);
-}
+//function ModegotValue(value) {
+//  console.log('modevalue: ', value);
+//}
 
 function onDisconnected() {
   connect_element = document.querySelector('#connectStatusID');
