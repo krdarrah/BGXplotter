@@ -41,7 +41,7 @@ function draw() {
     blueToothRXCharacteristic.writeValue(enc.encode("scan\n"));
     timeinterval = millis();
     scanRateInterval = millis();
-  } 
+  }
   else
   if (millis()-scanRateInterval>50 && isConnected) {
     var enc = new TextEncoder();
